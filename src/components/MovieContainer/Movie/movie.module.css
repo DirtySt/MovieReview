@@ -1,0 +1,25 @@
+.Element {
+    border: 1px solid black;
+    width: 23%;
+    height: 480px;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+    margin: 15px 0;
+    border-radius: 10%;
+}
+img{
+    width: 100%;
+}
+.Element:hover {
+    transition: all 500ms ease;
+    transform: scale(110%);
+    cursor: pointer;
+}
+.description{
+
+}
+.Dark{
+    background-color: #0f193f;
+    color: snow;
+}

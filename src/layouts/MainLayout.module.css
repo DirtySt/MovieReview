@@ -1,0 +1,25 @@
+body{
+    margin: 0;
+}
+.Layout{
+    background-color: silver;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 90vh;
+}
+.page {
+    width: 1100px;
+    background-color: snow;
+    min-height: 90vh;
+}
+.Dark{
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.DarkPage{
+    background-color: #403b3f;
+    width: 1100px;
+}

@@ -1,0 +1,33 @@
+.Header {
+    height: 10vh;
+    background-color: cornflowerblue;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+}
+.Header>a{
+    text-decoration: none;
+}
+.user {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    background-color: snow;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.user>div{
+    position: absolute;
+    top: 18px;
+}
+
+.Dark {
+    background-color: #0f193f;
+}
+.Dark>a{
+    color: #d6722e;
+}
+
+

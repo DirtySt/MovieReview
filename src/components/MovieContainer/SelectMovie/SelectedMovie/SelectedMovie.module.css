@@ -1,0 +1,61 @@
+.Container {
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    flex-direction: column;
+}
+.Poster {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    right: 300px;
+    top: 50px;
+}
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-wrap: wrap;
+
+    width: 300px;
+    height: 400px;
+    position: relative;
+    left: 300px;
+    bottom: 250px;
+}
+
+.overview {
+    width: 60%;
+    position: absolute;
+    left: 100px;
+    top: 520px
+}
+.cast {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.artist{
+    width: 15%;
+}
+.artist>img{
+    width: 100%;
+}
+.Container>h2{
+    position: absolute;
+    top: 700px;
+}
+.DarkInfo{
+    color: snow;
+}
+.DarkOverview{
+    color: snow;
+}
+.DarkArtist{
+    color: snow;
+}
+.DarkArtist>div{
+    color: snow;
+}

@@ -1,0 +1,26 @@
+.Container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.Genre {
+    margin: 20px 0;
+    width: 200px;
+    height: 50px;
+    background-color: dimgray;
+    color: snow;
+    border-radius: 10px;
+    border: 1px solid black;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.Genre>div{
+    margin: 7%;
+}
+
+.Genre:hover {
+    transition: all ease 500ms;
+    transform: scale(120%);
+    cursor: pointer;
+}
