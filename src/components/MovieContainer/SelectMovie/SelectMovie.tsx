@@ -20,7 +20,10 @@ const SelectMovie = () => {
     if (!movie){
         return <div>Loading...</div>
     }
-    if (!cast){
+    if (!cast.cast){
+        return <div>Loading...</div>
+    }
+    if (!cast.cast || !movie){
         return <div>Loading...</div>
     }
 
