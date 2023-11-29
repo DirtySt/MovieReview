@@ -5,21 +5,16 @@ import css from './movies.module.css'
 import {movieService} from "../../../services/movieService";
 import {useParams, useSearchParams} from "react-router-dom";
 import {genresService} from "../../../services/genresService";
+import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
+import {movieActions} from "../../../redux/slices/moviesSlice";
 
 
 const Movies = () => {
 
+    const dispatch = useAppDispatch();
+    const {results,genreResults,nameResults} = useAppSelector(state => state.movies)
+
     const {id,tag} = useParams()
-
-    const [movies, setMovies] = useState<IMovies>({page: null, results: [], total_pages: null, total_results: null});
-    const [searchMovies,setSearchMovies] = useState<IMovies>({page: null, results: [], total_pages: null, total_results: null})
-    const [genreMovies, setGenreMovies] = useState<IMovies>({
-        page: null,
-        results: [],
-        total_pages: null,
-        total_results: null
-    })
-
 
     const [query, setQuery] = useSearchParams({page: '1'});
     const page = query.get('page');
@@ -27,17 +22,15 @@ const Movies = () => {
     console.log(tag)
 
     useEffect(() => {
-        movieService.getAll(page.toString()).then(({data: {page, results, total_results, total_pages}}) =>
-            setMovies({page, results, total_results, total_pages}));
+        dispatch(movieActions.getAll(page))
     }, [page])
 
     useEffect(() => {
-        genresService.findById(id, page.toString()).then(({data: {page, results, total_results, total_pages}}) =>
-            setGenreMovies({page, results, total_pages, total_results}));
+        dispatch(movieActions.findById({id,page}))
+
     }, [page, id]);
     useEffect(() => {
-        movieService.searchByName(tag,page.toString()).then(({data: {page, results, total_results, total_pages}}) =>
-            setSearchMovies({page, results, total_pages, total_results}));
+        dispatch(movieActions.findByName({tag,page}))
     },[page,tag]);
 
     const prev = () => {
@@ -54,7 +47,7 @@ const Movies = () => {
         })
     }
 
-    if (!movies){
+    if (!results){
         return <div>Loading...</div>
     }
 
@@ -62,7 +55,7 @@ const Movies = () => {
         return (
             <div>
                 <div id={css.Movies}>
-                    {searchMovies.results.map(movie => <Movie movie={movie} key={movie.id}/>)}
+                    {nameResults.map(movie => <Movie movie={movie} key={movie.id}/>)}
                 </div>
                 <div>
                     <button disabled={page === '1' && true} onClick={prev}>prev</button>
@@ -76,7 +69,7 @@ const Movies = () => {
         return (
         <div>
             <div id={css.Movies}>
-                {genreMovies.results.map(movie => <Movie movie={movie} key={movie.id}/>)}
+                {genreResults.map(movie => <Movie movie={movie} key={movie.id}/>)}
             </div>
             <div>
                 <button disabled={page === '1' && true} onClick={prev}>prev</button>
@@ -85,11 +78,12 @@ const Movies = () => {
         </div>
         )
     }
+    console.log(results)
 
     return (
         <div>
             <div id={css.Movies}>
-                {movies.results.map(movie => <Movie movie={movie} key={movie.id}/>)}
+                {results.map(movie => <Movie movie={movie} key={movie.id}/>)}
             </div>
             <div>
                 <button disabled={page === '1' && true} onClick={prev}>prev</button>
