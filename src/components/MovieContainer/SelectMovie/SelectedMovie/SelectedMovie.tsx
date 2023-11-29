@@ -1,8 +1,8 @@
-import React, {FC, useContext, useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import css from './SelectedMovie.module.css'
 import {ISelectMovie} from "../../../../interfaces/ISelectMovie";
 import {ICast} from "../../../../interfaces/ICast";
-import {Context} from "../../../../hoc/ContextProvider";
+import {useAppSelector} from "../../../../hooks/ReduxHooks";
 
 interface IProps {
     movie:ISelectMovie
@@ -12,7 +12,7 @@ interface IProps {
 const SelectedMovie:FC<IProps> = ({movie,cast}) => {
     const {adult,poster_path,runtime,genres,homepage} = movie
 
-    const {darkTheme} = useContext(Context)
+    const {darkTheme} = useAppSelector(state => state.movies);
 
     let info = document.getElementsByClassName(css.info);
     let overview = document.getElementsByClassName(css.overview);

@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Movie from "../Movie/Movie";
-import {IMovies} from "../../../interfaces/IMovies";
 import css from './movies.module.css'
-import {movieService} from "../../../services/movieService";
 import {useParams, useSearchParams} from "react-router-dom";
-import {genresService} from "../../../services/genresService";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {movieActions} from "../../../redux/slices/moviesSlice";
 
@@ -23,15 +20,15 @@ const Movies = () => {
 
     useEffect(() => {
         dispatch(movieActions.getAll(page))
-    }, [page])
+    }, [page,dispatch])
 
     useEffect(() => {
         dispatch(movieActions.findById({id,page}))
 
-    }, [page, id]);
+    }, [page, id,dispatch]);
     useEffect(() => {
         dispatch(movieActions.findByName({tag,page}))
-    },[page,tag]);
+    },[page,tag,dispatch]);
 
     const prev = () => {
         setQuery(prev => {
@@ -63,6 +60,10 @@ const Movies = () => {
                 </div>
             </div>
         )
+    }
+
+    if (!genreResults){
+        return <div>Loading...</div>
     }
 
     if (id) {

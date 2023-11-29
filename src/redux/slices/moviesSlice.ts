@@ -1,8 +1,7 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, isRejected} from "@reduxjs/toolkit";
 import {IMovie} from "../../interfaces/IMovie";
 import {movieService} from "../../services/movieService";
 import {IMovies} from "../../interfaces/IMovies";
-import {IRes} from "../../types/IRes";
 import {genresService} from "../../services/genresService";
 
 interface GetByIdArgs{
@@ -18,19 +17,19 @@ interface ThunkRes {
 }
 
 interface IState {
-    page: number;
-    genrePage: number;
     results: IMovie[];
     genreResults: IMovie[];
     nameResults: IMovie[];
+    darkTheme: boolean;
+    error: {}
 }
 
 const initialState:IState = {
-    page: null,
-    genrePage:null,
     results: [],
     genreResults: [],
-    nameResults:[]
+    nameResults:[],
+    darkTheme:null,
+    error: {}
 }
 
 const getAll = createAsyncThunk(
@@ -39,7 +38,7 @@ const getAll = createAsyncThunk(
         try {
             return await movieService.getAll(page);
         } catch (e) {
-            console.log(e);
+            return thunkAPI.rejectWithValue(e)
         }
     });
 const findById = createAsyncThunk<ThunkRes,GetByIdArgs>(
@@ -49,7 +48,7 @@ const findById = createAsyncThunk<ThunkRes,GetByIdArgs>(
             return await genresService.findById(id, page);
         }
         catch (e) {
-            console.log(e);
+            return thunkAPI.rejectWithValue(e)
         }
     }
 )
@@ -59,7 +58,7 @@ const findByName = createAsyncThunk<ThunkRes,GetByNameArgs>(
         try {
             return await movieService.searchByName(tag, page);
         }catch (e) {
-            console.log(e)
+            return thunkAPI.rejectWithValue(e)
         }
     }
 )
@@ -67,22 +66,29 @@ const findByName = createAsyncThunk<ThunkRes,GetByNameArgs>(
 const movieSlice = createSlice({
     name: 'movieSlice',
     initialState,
-    reducers:{},
+    reducers: {
+        darkThemeChanger: (state) => {
+            state.darkTheme = !state.darkTheme;
+        },
+        nullGenreResults: (state) => {
+            state.genreResults = null;
+        }
+    },
     extraReducers:builder =>
         builder
             .addCase(getAll.fulfilled,(state, action) => {
                 const {data} = action.payload;
                 state.results = data.results;
-                state.page = data.page
             })
             .addCase(findById.fulfilled,(state, action) => {
                 const {data} = action.payload;
-                state.genreResults = data.results;
-                state.genrePage = data.page
-            })
+                state.genreResults = data.results;})
             .addCase(findByName.fulfilled,(state, action) => {
                 const {data} = action.payload;
                 state.nameResults = data.results;
+            })
+            .addMatcher(isRejected(getAll,findByName,findById),(state, action) => {
+                state.error = action.payload;
             })
 })
 

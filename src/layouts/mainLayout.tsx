@@ -1,12 +1,12 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Outlet} from "react-router-dom";
 import Header from "../components/Header/Header";
 import css from './MainLayout.module.css'
-import {Context} from "../hoc/ContextProvider";
+import {useAppSelector} from "../hooks/ReduxHooks";
 
 const MainLayout = () => {
 
-    const {darkTheme} = useContext(Context);
+    const {darkTheme} = useAppSelector(state => state.movies)
 
     const layout = document.getElementsByClassName(css.Layout);
     const page = document.getElementsByClassName(css.page);

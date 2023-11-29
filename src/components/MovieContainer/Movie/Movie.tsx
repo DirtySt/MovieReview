@@ -1,12 +1,9 @@
-import React, {FC, useContext, useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {IMovie} from "../../../interfaces/IMovie";
 import css from './movie.module.css'
 import {useNavigate} from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import {Context} from "../../../hoc/ContextProvider";
-
-
-
+import {useAppSelector} from "../../../hooks/ReduxHooks";
 
 interface IProps{
     movie: IMovie;
@@ -14,7 +11,7 @@ interface IProps{
 
 const Movie:FC<IProps> = ({movie}) => {
 
-    const {darkTheme} = useContext(Context)
+    const {darkTheme} = useAppSelector(state => state.movies)
 
     let el = document.getElementsByClassName(css.Element);
 
