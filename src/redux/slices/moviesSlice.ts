@@ -21,7 +21,7 @@ interface IState {
     genreResults: IMovie[];
     nameResults: IMovie[];
     darkTheme: boolean;
-    error: {}
+    error: any
 }
 
 const initialState:IState = {
@@ -29,7 +29,7 @@ const initialState:IState = {
     genreResults: [],
     nameResults:[],
     darkTheme:null,
-    error: {}
+    error: null
 }
 
 const getAll = createAsyncThunk(
@@ -82,7 +82,8 @@ const movieSlice = createSlice({
             })
             .addCase(findById.fulfilled,(state, action) => {
                 const {data} = action.payload;
-                state.genreResults = data.results;})
+                state.genreResults = data.results;
+            })
             .addCase(findByName.fulfilled,(state, action) => {
                 const {data} = action.payload;
                 state.nameResults = data.results;

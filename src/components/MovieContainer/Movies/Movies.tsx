@@ -5,18 +5,16 @@ import {useParams, useSearchParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {movieActions} from "../../../redux/slices/moviesSlice";
 
-
 const Movies = () => {
 
     const dispatch = useAppDispatch();
-    const {results,genreResults,nameResults} = useAppSelector(state => state.movies)
+    const {results,genreResults,nameResults,error} = useAppSelector(state => state.movies)
 
     const {id,tag} = useParams()
 
     const [query, setQuery] = useSearchParams({page: '1'});
     const page = query.get('page');
 
-    console.log(tag)
 
     useEffect(() => {
         dispatch(movieActions.getAll(page))
@@ -62,6 +60,10 @@ const Movies = () => {
         )
     }
 
+    if (error){
+        return <div>{JSON.stringify(error)}</div>
+    }
+
     if (!genreResults){
         return <div>Loading...</div>
     }
@@ -79,7 +81,6 @@ const Movies = () => {
         </div>
         )
     }
-    console.log(results)
 
     return (
         <div>

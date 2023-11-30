@@ -16,8 +16,6 @@ const Header = () => {
         dispatch(movieActions.darkThemeChanger());
     };
 
-    console.log(darkTheme)
-
     useEffect(()=>{
         if (darkTheme){
             el.item(0).classList.add(css.Dark)
