@@ -8,9 +8,9 @@ import {movieActions} from "../../../redux/slices/moviesSlice";
 const Movies = () => {
 
     const dispatch = useAppDispatch();
-    const {results,genreResults,nameResults,error} = useAppSelector(state => state.movies)
+    const {results, genreResults, nameResults} = useAppSelector(state => state.movies);
 
-    const {id,tag} = useParams()
+    const {id, tag} = useParams();
 
     const [query, setQuery] = useSearchParams({page: '1'});
     const page = query.get('page');
@@ -42,7 +42,7 @@ const Movies = () => {
         })
     }
 
-    if (!results){
+    if (!results || !genreResults){
         return <div>Loading...</div>
     }
 
@@ -58,14 +58,6 @@ const Movies = () => {
                 </div>
             </div>
         )
-    }
-
-    if (error){
-        return <div>{JSON.stringify(error)}</div>
-    }
-
-    if (!genreResults){
-        return <div>Loading...</div>
     }
 
     if (id) {

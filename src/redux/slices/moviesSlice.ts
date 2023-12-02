@@ -1,23 +1,15 @@
 import {createAsyncThunk, createSlice, isRejected} from "@reduxjs/toolkit";
 import {IMovie} from "../../interfaces/IMovie";
 import {movieService} from "../../services/movieService";
-import {IMovies} from "../../interfaces/IMovies";
 import {genresService} from "../../services/genresService";
-
-interface GetByIdArgs{
-    page: string;
-    id:string
-}
-interface GetByNameArgs {
-    page: string;
-    tag:string
-}
-interface ThunkRes {
-    data:IMovies
-}
+import {IGetByIdArgs} from "../../interfaces/GetByIdArgs";
+import {IGetByNameArgs} from "../../interfaces/GetByNameArgs";
+import {IThunkRes} from "../../interfaces/IThunkRes";
+import {IGenre} from "../../interfaces/IGenre";
 
 interface IState {
     results: IMovie[];
+    genres: IGenre[];
     genreResults: IMovie[];
     nameResults: IMovie[];
     darkTheme: boolean;
@@ -26,6 +18,7 @@ interface IState {
 
 const initialState:IState = {
     results: [],
+    genres: [],
     genreResults: [],
     nameResults:[],
     darkTheme:null,
@@ -38,10 +31,21 @@ const getAll = createAsyncThunk(
         try {
             return await movieService.getAll(page);
         } catch (e) {
-            return thunkAPI.rejectWithValue(e)
+            return thunkAPI.rejectWithValue(e);
         }
     });
-const findById = createAsyncThunk<ThunkRes,GetByIdArgs>(
+const getGenres = createAsyncThunk(
+    'movieSlice/getGenres',
+    async(_,thunkAPI)=>{
+        try {
+            return await genresService.getAll();
+        }
+        catch (e) {
+            return thunkAPI.rejectWithValue(e);
+        }
+    }
+);
+const findById = createAsyncThunk<IThunkRes,IGetByIdArgs>(
     'movieSlice/findById',
     async({id,page},thunkAPI)=>{
         try {
@@ -52,7 +56,7 @@ const findById = createAsyncThunk<ThunkRes,GetByIdArgs>(
         }
     }
 )
-const findByName = createAsyncThunk<ThunkRes,GetByNameArgs>(
+const findByName = createAsyncThunk<IThunkRes,IGetByNameArgs>(
     'movieSlice/findByName',
     async({tag,page},thunkAPI)=>{
         try {
@@ -88,7 +92,11 @@ const movieSlice = createSlice({
                 const {data} = action.payload;
                 state.nameResults = data.results;
             })
-            .addMatcher(isRejected(getAll,findByName,findById),(state, action) => {
+            .addCase(getGenres.fulfilled,(state, action) => {
+                const {data} = action.payload;
+                state.genres = data.genres
+            })
+            .addMatcher(isRejected(getAll,findByName,findById,getGenres),(state, action) => {
                 state.error = action.payload;
             })
 })
@@ -99,7 +107,8 @@ const movieActions = {
     ...actions,
     getAll,
     findById,
-    findByName
+    findByName,
+    getGenres
 };
 
 export {movieActions,movieReducer}

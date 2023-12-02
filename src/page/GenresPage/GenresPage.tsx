@@ -1,26 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {genresService} from "../../services/genresService";
-import Genres from "../../components/Genres/Genres";
-import {IGenres} from "../../interfaces/IGenres";
-import css from './GenresPage.module.css'
+import React from 'react';
+import Genres from "../../components/GenreContainer/Genres/Genres";
+import css from '../../components/GenreContainer/Genres/Genres.module.css'
+import {useAppSelector} from "../../hooks/ReduxHooks";
 
 const GenresPage = () => {
 
-    const [genresList, setGenresList] = useState<IGenres>({genres:null});
-
-    useEffect(()=>{
-            genresService.getAll().then(({data}) => setGenresList(data));
-        },[])
-
-    const {genres} = genresList
-
-    if (!genres){
-        return <div>Loading...</div>
-    }
+    const {error} = useAppSelector(state => state.movies);
 
     return (
         <div className={css.Container}>
-            {genres.map(genre => <Genres genre={genre} key={genre.id}/>)}
+            {error ? <div>{error.message}</div> : <Genres/>}
         </div>
     );
 };
