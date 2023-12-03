@@ -1,20 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import Movie from "../Movie/Movie";
 import css from './movies.module.css'
-import {useParams, useSearchParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {movieActions} from "../../../redux/slices/moviesSlice";
 
-const Movies = () => {
+interface IProps {
+    page:string
+}
+
+const Movies:FC<IProps> = ({page}) => {
 
     const dispatch = useAppDispatch();
     const {results, genreResults, nameResults} = useAppSelector(state => state.movies);
 
     const {id, tag} = useParams();
-
-    const [query, setQuery] = useSearchParams({page: '1'});
-    const page = query.get('page');
-
 
     useEffect(() => {
         dispatch(movieActions.getAll(page))
@@ -28,20 +28,6 @@ const Movies = () => {
         dispatch(movieActions.findByName({tag,page}))
     },[page,tag,dispatch]);
 
-    const prev = () => {
-        setQuery(prev => {
-            prev.set('page', `${+page - 1}`)
-            return prev
-        })
-    }
-
-    const next = () => {
-        setQuery(prev => {
-            prev.set('page', `${+page + 1}`)
-            return prev
-        })
-    }
-
     if (!results || !genreResults){
         return <div>Loading...</div>
     }
@@ -51,10 +37,6 @@ const Movies = () => {
             <div>
                 <div id={css.Movies}>
                     {nameResults.map(movie => <Movie movie={movie} key={movie.id}/>)}
-                </div>
-                <div>
-                    <button disabled={page === '1' && true} onClick={prev}>prev</button>
-                    <button disabled={page === '499'} onClick={next}>next</button>
                 </div>
             </div>
         )
@@ -66,10 +48,6 @@ const Movies = () => {
             <div id={css.Movies}>
                 {genreResults.map(movie => <Movie movie={movie} key={movie.id}/>)}
             </div>
-            <div>
-                <button disabled={page === '1' && true} onClick={prev}>prev</button>
-                <button disabled={page === '499'} onClick={next}>next</button>
-            </div>
         </div>
         )
     }
@@ -78,10 +56,6 @@ const Movies = () => {
         <div>
             <div id={css.Movies}>
                 {results.map(movie => <Movie movie={movie} key={movie.id}/>)}
-            </div>
-            <div>
-                <button disabled={page === '1' && true} onClick={prev}>prev</button>
-                <button disabled={page === '499'} onClick={next}>next</button>
             </div>
         </div>
     );
