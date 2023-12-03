@@ -1,55 +1,21 @@
 import React, {FC, useEffect} from 'react';
 import Movie from "../Movie/Movie";
 import css from './movies.module.css'
-import {useParams} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../hooks/ReduxHooks";
 import {movieActions} from "../../../redux/slices/moviesSlice";
+import {IPageProps} from "../../../interfaces/IPageProps";
 
-interface IProps {
-    page:string
-}
-
-const Movies:FC<IProps> = ({page}) => {
+const Movies:FC<IPageProps> = ({page}) => {
 
     const dispatch = useAppDispatch();
-    const {results, genreResults, nameResults} = useAppSelector(state => state.movies);
-
-    const {id, tag} = useParams();
+    const {results} = useAppSelector(state => state.movies);
 
     useEffect(() => {
         dispatch(movieActions.getAll(page))
     }, [page,dispatch])
 
-    useEffect(() => {
-        dispatch(movieActions.findById({id,page}))
-
-    }, [page, id,dispatch]);
-    useEffect(() => {
-        dispatch(movieActions.findByName({tag,page}))
-    },[page,tag,dispatch]);
-
-    if (!results || !genreResults){
+    if (!results){
         return <div>Loading...</div>
-    }
-
-    if (tag){
-        return (
-            <div>
-                <div id={css.Movies}>
-                    {nameResults.map(movie => <Movie movie={movie} key={movie.id}/>)}
-                </div>
-            </div>
-        )
-    }
-
-    if (id) {
-        return (
-        <div>
-            <div id={css.Movies}>
-                {genreResults.map(movie => <Movie movie={movie} key={movie.id}/>)}
-            </div>
-        </div>
-        )
     }
 
     return (

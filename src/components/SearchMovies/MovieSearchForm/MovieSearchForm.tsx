@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {SubmitHandler, useForm} from "react-hook-form";
-import {tagValidator} from "../../validators/tagValidator";
+import {tagValidator} from "../../../validators/tagValidator";
 import {joiResolver} from "@hookform/resolvers/joi";
 import {useNavigate} from "react-router-dom";
 

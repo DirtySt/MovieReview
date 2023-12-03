@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, isRejected} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, isFulfilled, isRejected} from "@reduxjs/toolkit";
 import {IMovie} from "../../interfaces/IMovie";
 import {movieService} from "../../services/movieService";
 import {genresService} from "../../services/genresService";
@@ -13,7 +13,7 @@ interface IState {
     genreResults: IMovie[];
     nameResults: IMovie[];
     darkTheme: boolean;
-    error: any
+    error: any;
 }
 
 const initialState:IState = {
@@ -22,7 +22,7 @@ const initialState:IState = {
     genreResults: [],
     nameResults:[],
     darkTheme:null,
-    error: null
+    error: null,
 }
 
 const getAll = createAsyncThunk(
@@ -95,6 +95,9 @@ const movieSlice = createSlice({
             .addCase(getGenres.fulfilled,(state, action) => {
                 const {data} = action.payload;
                 state.genres = data.genres
+            })
+            .addMatcher(isFulfilled(getAll,findByName,findById,getGenres),state => {
+                state.error = null
             })
             .addMatcher(isRejected(getAll,findByName,findById,getGenres),(state, action) => {
                 state.error = action.payload;

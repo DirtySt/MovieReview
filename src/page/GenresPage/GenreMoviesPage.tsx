@@ -1,10 +1,9 @@
 import React from 'react';
-import Movies from "../../components/MovieContainer/Movies/Movies";
-import {useAppSelector} from "../../hooks/ReduxHooks";
+import GenreMovies from "../../components/GenreContainer/GenreMovies/GenreMovies";
 import {useSearchParams} from "react-router-dom";
+import {useAppSelector} from "../../hooks/ReduxHooks";
 
-
-const MoviesPage = () => {
+const GenreMoviesPage = () => {
 
     const {error} = useAppSelector(state => state.movies);
 
@@ -27,7 +26,7 @@ const MoviesPage = () => {
 
     return (
         <div>
-            {error ? <div>{error.message}</div> : <Movies page={page}/>}
+            {error ? <div>{error.message}</div> : <GenreMovies page={page}/>}
             <div>
                 <button disabled={page === '1' && true} onClick={prev}>prev</button>
                 <button disabled={page === '499'} onClick={next}>next</button>
@@ -36,4 +35,4 @@ const MoviesPage = () => {
     );
 };
 
-export default MoviesPage;
+export default GenreMoviesPage;

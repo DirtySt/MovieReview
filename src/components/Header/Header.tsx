@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import css from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import MovieSearchForm from "../MovieSearchForm/MovieSearchForm";
+import MovieSearchForm from "../SearchMovies/MovieSearchForm/MovieSearchForm";
 import {useAppDispatch, useAppSelector} from "../../hooks/ReduxHooks";
 import {movieActions} from "../../redux/slices/moviesSlice";
 
