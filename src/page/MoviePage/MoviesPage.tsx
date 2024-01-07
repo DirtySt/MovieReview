@@ -2,6 +2,7 @@ import React from 'react';
 import Movies from "../../components/MovieContainer/Movies/Movies";
 import {useAppSelector} from "../../hooks/ReduxHooks";
 import {useSearchParams} from "react-router-dom";
+import css from './MoviesPage.module.css'
 
 
 const MoviesPage = () => {
@@ -28,7 +29,7 @@ const MoviesPage = () => {
     return (
         <div>
             {error ? <div>{error.message}</div> : <Movies page={page}/>}
-            <div>
+            <div className={css.pagination}>
                 <button disabled={page === '1' && true} onClick={prev}>prev</button>
                 <button disabled={page === '499'} onClick={next}>next</button>
             </div>

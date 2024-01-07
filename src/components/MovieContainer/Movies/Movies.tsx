@@ -14,6 +14,8 @@ const Movies:FC<IPageProps> = ({page}) => {
         dispatch(movieActions.getAll(page))
     }, [page,dispatch])
 
+    console.log(results)
+
     if (!results){
         return <div>Loading...</div>
     }

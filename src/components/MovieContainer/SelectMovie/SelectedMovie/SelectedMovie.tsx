@@ -12,14 +12,18 @@ interface IProps {
 const SelectedMovie:FC<IProps> = ({movie,cast}) => {
     const {adult,poster_path,runtime,genres,homepage} = movie
 
+    console.log(movie)
+
     const {darkTheme} = useAppSelector(state => state.movies);
 
     let info = document.getElementsByClassName(css.info);
     let overview = document.getElementsByClassName(css.overview);
-    let artist = document.getElementsByClassName(css.artist)
+    let artist = document.getElementsByClassName(css.artist);
+    let container = document.getElementsByClassName(css.Container);
 
     useEffect(()=>{
         if (darkTheme){
+            container.item(0).classList.add(css.Dark)
             info.item(0).classList.add(css.DarkInfo)
             overview.item(0).classList.add(css.DarkOverview)
             for (let i = 0;i < artist.length;i++){
@@ -28,6 +32,7 @@ const SelectedMovie:FC<IProps> = ({movie,cast}) => {
             artist.item(0).classList.add(css.DarkArtist)
         }
         else {
+            container.item(0).classList.remove(css.Dark)
             info.item(0).classList.remove(css.DarkInfo)
             overview.item(0).classList.remove(css.DarkOverview)
             for (let i = 0;i < artist.length;i++){
@@ -52,7 +57,7 @@ const SelectedMovie:FC<IProps> = ({movie,cast}) => {
                 <div>vote:{movie.vote_average}</div>
                 <hr/>
             </div>
-            <div className={css.overview}> overview:{movie.overview}</div>
+            <div className={css.overview}>{movie.overview}</div>
             <div className={css.cast}>
                 {cast.map(artist=>
                     <div className={css.artist}>

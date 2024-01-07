@@ -14,6 +14,7 @@ interface IState {
     nameResults: IMovie[];
     darkTheme: boolean;
     error: any;
+    page:string
 }
 
 const initialState:IState = {
@@ -23,6 +24,8 @@ const initialState:IState = {
     nameResults:[],
     darkTheme:null,
     error: null,
+    page: '1',
+
 }
 
 const getAll = createAsyncThunk(
@@ -76,6 +79,9 @@ const movieSlice = createSlice({
         },
         nullGenreResults: (state) => {
             state.genreResults = null;
+        },
+        setPage: (state, action) => {
+            state.page = action.payload;
         }
     },
     extraReducers:builder =>

@@ -1,0 +1,17 @@
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    bottom: 30px;
+}
+.pagination > button {
+    width: 100px;
+    height: 35px;
+    border-radius: 25px;
+    background-color: #e4c816;
+    cursor: pointer;
+}
+.pagination>button:hover{
+    transition: all 500ms ease;
+    transform: scale(110%);
+}

@@ -29,7 +29,7 @@ const Header = () => {
 
     return (
         <div className={css.Header}>
-            <input type={"checkbox"} onClick={changeTheme}/>
+            <input placeholder={"Theme"} type={"checkbox"} onClick={changeTheme}/>
             <NavLink to={'movies'}>Movies</NavLink>
             <NavLink to={'genres'}>Genres</NavLink>
             <MovieSearchForm/>

@@ -2,55 +2,71 @@
     display: flex;
     position: relative;
     align-items: center;
-
     flex-direction: column;
+    background-color: snow;
+    overflow: hidden;
+
 }
 .Poster {
-    width: 300px;
-    height: 400px;
+    width: 250px;
+    height: 350px;
     position: relative;
-    right: 300px;
+    right: 350px;
     top: 50px;
+    border-radius: 25px;
+
 }
 .info {
+    background-color: #e4c816;
+    border-radius: 25px;
+    padding: 25px 10px;
     display: flex;
     flex-direction: column;
     align-items: start;
     flex-wrap: wrap;
-
-    width: 300px;
-    height: 400px;
+    width: 230px;
+    height: 300px;
     position: relative;
-    left: 300px;
-    bottom: 250px;
+    left: 350px;
+    bottom: 300px;
+    overflow: hidden;
 }
 
 .overview {
+    background-color: #e4c816;
     width: 60%;
-    position: absolute;
-    left: 100px;
-    top: 520px
+    position: relative;
+    right: 130px;
+    padding: 20px;
+    border-radius: 25px;
+    bottom: 200px
 }
 .cast {
+    width: 80%;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 .artist{
-    width: 15%;
+    width: 20%;
 }
 .artist>img{
-    width: 100%;
+    width: 80%;
 }
 .Container>h2{
     position: absolute;
     top: 700px;
 }
+.Dark{
+    background-color: #403b3f;
+}
 .DarkInfo{
+    background-color: #0f193f;
     color: snow;
 }
 .DarkOverview{
+    background-color: #0f193f;
     color: snow;
 }
 .DarkArtist{
